@@ -2,6 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     screens: {
       mobile: "375px",
