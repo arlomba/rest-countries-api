@@ -1,61 +1,74 @@
 <template class="js-country-details">
-  <article class="flex flex-col">
-    <header class="w-full">
-      <img
-        class="rounded-t-lg w-full max-h-full object-cover"
-        data-country-flag
-      />
-    </header>
+  <div
+    class="flex fixed overscroll-y-contain inset-0 bg-black/80 h-full w-full"
+  >
+    <article
+      class="flex flex-col self-center mx-auto max-w-lg bg-white dark:bg-blue-900"
+    >
+      <button
+        class="js-close-modal absolute text-xl font-extrabold rounded-full h-8 w-8 right-2 top-2 text-black bg-gray-50"
+        title="Close"
+      >
+        &times;
+      </button>
 
-    <div class="p-3">
-      <h2 class="text-lg font-extrabold desktop:text-xl" data-country-name></h2>
+      <header class="w-full">
+        <img class="w-full" data-country-flag />
+      </header>
 
-      <p class="font-semibold">
-        Native Name:
-        <span class="font-light" data-country-native></span>
-      </p>
+      <div class="p-3">
+        <h2
+          class="text-lg font-extrabold desktop:text-xl"
+          data-country-name
+        ></h2>
 
-      <p class="font-semibold">
-        Population:
-        <span class="font-light" data-country-population></span>
-      </p>
+        <p class="font-semibold">
+          Native Name:
+          <span class="font-light" data-country-native></span>
+        </p>
 
-      <p class="font-semibold">
-        Region:
-        <span class="font-light" data-country-region></span>
-      </p>
+        <p class="font-semibold">
+          Population:
+          <span class="font-light" data-country-population></span>
+        </p>
 
-      <p class="font-semibold">
-        Sub Region:
-        <span class="font-light" data-country-subregion></span>
-      </p>
+        <p class="font-semibold">
+          Region:
+          <span class="font-light" data-country-region></span>
+        </p>
 
-      <p class="font-semibold">
-        Capital:
-        <span class="font-light" data-country-capital></span>
-      </p>
-    </div>
+        <p class="font-semibold">
+          Sub Region:
+          <span class="font-light" data-country-subregion></span>
+        </p>
 
-    <div class="p-3">
-      <p class="font-semibold">
-        Top Level Domain:
-        <span class="font-light" data-country-tld></span>
-      </p>
+        <p class="font-semibold">
+          Capital:
+          <span class="font-light" data-country-capital></span>
+        </p>
+      </div>
 
-      <p class="font-semibold">
-        Currencies:
-        <span class="font-light" data-country-currencies></span>
-      </p>
+      <div class="p-3">
+        <p class="font-semibold">
+          Top Level Domain:
+          <span class="font-light" data-country-tld></span>
+        </p>
 
-      <p class="font-semibold">
-        Languages:
-        <span class="font-light" data-country-languages></span>
-      </p>
-    </div>
+        <p class="font-semibold">
+          Currencies:
+          <span class="font-light" data-country-currencies></span>
+        </p>
 
-    <footer class="p-3">
-      <h3 class="font-semibold">Border Countries:</h3>
-      <div class="font-light" data-country-borders></div>
-    </footer>
-  </article>
+        <p class="font-semibold">
+          Languages:
+          <span class="font-light" data-country-languages></span>
+        </p>
+      </div>
+
+      <footer class="p-3">
+        <h3 class="text-md font-semibold">Border Countries:</h3>
+        <div class="font-light" data-country-borders></div>
+      </footer>
+    </article>
+  </div>
 </template>

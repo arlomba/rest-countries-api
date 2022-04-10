@@ -18,6 +18,7 @@ module.exports = {
     },
     colors: {
       white: "hsl(0, 0%, 100%)",
+      black: "hsl(0, 0%, 0%)",
       blue: {
         700: "hsl(209, 23%, 22%)",
         800: "hsl(207, 26%, 17%)",

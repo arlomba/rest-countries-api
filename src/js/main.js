@@ -8,17 +8,42 @@ const fetchCountries = async () => {
   return data;
 };
 
-const setCountryFields = (countries) => {
-  return countries.map((country) => ({
-    name: country.name,
-    flag: country.flag,
-    population: country.population.toLocaleString(),
-    capital: country.capital || "¯\\_(ツ)_/¯",
-    region: country.region,
-  }));
+const transformCountryFields = (countries) => {
+  return countries.map((country) => {
+    const {
+      name,
+      flag,
+      population,
+      capital,
+      region,
+      topLevelDomain,
+      nativeName,
+      subregion,
+      languages,
+      currencies,
+      borders,
+    } = country;
+    const tld = topLevelDomain.map((tld) => tld).join(" ");
+
+    return {
+      name,
+      flag,
+      population: population.toLocaleString(),
+      capital: capital || "¯\\_(ツ)_/¯",
+      region,
+      tld,
+      native: nativeName,
+      subregion,
+      languages: languages.map((l) => l.name).join(", "),
+      currencies: currencies
+        ? currencies.map((c) => c.name).join(", ")
+        : "¯\\_(ツ)_/¯",
+      borders: borders || "¯\\_(ツ)_/¯",
+    };
+  });
 };
 
-const setCountries = (countries) => {
+const setCountryCards = (countries) => {
   document.querySelector(".js-country-list").innerHTML = "";
 
   countries.forEach((c) => {
@@ -33,17 +58,47 @@ const setCountries = (countries) => {
     country.querySelector("[data-country-region]").textContent = c.region;
     country.querySelector("[data-country-capital]").textContent = c.capital;
 
+    country.querySelector("article").addEventListener("click", () => {
+      setCountryDetails(c);
+    });
+
     document.querySelector(".js-country-list").appendChild(country);
   });
+};
+
+const setCountryDetails = (c) => {
+  document.querySelector(".js-country-modal").innerHTML = "";
+
+  const countryDetails = document.querySelector(".js-country-details").content;
+  const country = countryDetails.cloneNode(true);
+
+  country.querySelector(".js-close-modal").addEventListener("click", () => {
+    document.querySelector(".js-country-modal").innerHTML = "";
+  });
+
+  country.querySelector("[data-country-flag]").src = c.flag;
+  country.querySelector("[data-country-flag]").alt = `Flag of ${c.name}`;
+  country.querySelector("[data-country-name]").textContent = c.name;
+  country.querySelector("[data-country-population]").textContent = c.population;
+  country.querySelector("[data-country-region]").textContent = c.region;
+  country.querySelector("[data-country-capital]").textContent = c.capital;
+  country.querySelector("[data-country-native]").textContent = c.native;
+  country.querySelector("[data-country-subregion]").textContent = c.subregion;
+  country.querySelector("[data-country-tld]").textContent = c.tld;
+  country.querySelector("[data-country-languages]").textContent = c.languages;
+  country.querySelector("[data-country-borders]").textContent = c.borders;
+  country.querySelector("[data-country-currencies]").textContent = c.currencies;
+
+  document.querySelector(".js-country-modal").appendChild(country);
 };
 
 // Fetch countries and set the fields
 document.addEventListener("DOMContentLoaded", async () => {
   const countries = await fetchCountries();
 
-  countriesData = await setCountryFields(countries);
+  countriesData = await transformCountryFields(countries);
 
-  setCountries(countriesData);
+  setCountryCards(countriesData);
 });
 
 // Search by country name
@@ -54,7 +109,7 @@ document.querySelector(".js-search-country").addEventListener("input", (e) => {
     return country.name.toLowerCase().includes(search);
   });
 
-  setCountries(filteredCountries);
+  setCountryCards(filteredCountries);
 });
 
 // Filter by region
@@ -65,7 +120,7 @@ document.querySelector(".js-select-region").addEventListener("change", (e) => {
     return country.region.toLowerCase() === region;
   });
 
-  setCountries(filteredCountries);
+  setCountryCards(filteredCountries);
 });
 
 // Toggle theme
