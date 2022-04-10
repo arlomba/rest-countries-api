@@ -1,0 +1,29 @@
+<template class="js-country-card">
+  <article class="flex flex-col bg-white shadow rounded-lg dark:bg-blue-700">
+    <header class="w-full h-40">
+      <img
+        class="rounded-t-lg w-full max-h-full object-cover"
+        data-country-flag
+      />
+    </header>
+
+    <div class="p-3">
+      <h2 class="text-lg font-extrabold desktop:text-xl" data-country-name></h2>
+
+      <p class="font-semibold">
+        Population:
+        <span class="font-light" data-country-population></span>
+      </p>
+
+      <p class="font-semibold">
+        Region:
+        <span class="font-light" data-country-region></span>
+      </p>
+
+      <p class="font-semibold">
+        Capital:
+        <span class="font-light" data-country-capital></span>
+      </p>
+    </div>
+  </article>
+</template>
