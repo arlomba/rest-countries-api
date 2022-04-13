@@ -18,6 +18,7 @@ const transformCountryFields = (countries) => {
       region,
       topLevelDomain,
       nativeName,
+      alpha3Code,
       subregion,
       languages,
       currencies,
@@ -33,14 +34,45 @@ const transformCountryFields = (countries) => {
       region,
       tld,
       native: nativeName,
+      alpha3Code,
       subregion,
       languages: languages.map((l) => l.name).join(", "),
       currencies: currencies
         ? currencies.map((c) => c.name).join(", ")
         : "¯\\_(ツ)_/¯",
-      borders: borders || "¯\\_(ツ)_/¯",
+      borders,
     };
   });
+};
+
+// Convert a border alpha code to its country name
+const borderToName = (border) => {
+  if (!border) return;
+
+  const country = countriesData.find((c) => c.alpha3Code === border);
+
+  return country.name;
+};
+
+// Create a button with the name of the border country
+const createBorderTemplate = (border) => {
+  const countryBorder = document.createElement("button");
+
+  countryBorder.classList.add(
+    "border-2",
+    "border-gray-500",
+    "shadow",
+    "py-2",
+    "px-4",
+    "dark:border-0",
+    "dark:bg-blue-700"
+  );
+  countryBorder.textContent = borderToName(border);
+  countryBorder.addEventListener("click", () => {
+    setCountryDetails(countriesData.find((c) => c.alpha3Code === border));
+  });
+
+  return countryBorder;
 };
 
 const setCountryCards = (countries) => {
@@ -86,8 +118,17 @@ const setCountryDetails = (c) => {
   country.querySelector("[data-country-subregion]").textContent = c.subregion;
   country.querySelector("[data-country-tld]").textContent = c.tld;
   country.querySelector("[data-country-languages]").textContent = c.languages;
-  country.querySelector("[data-country-borders]").textContent = c.borders;
   country.querySelector("[data-country-currencies]").textContent = c.currencies;
+
+  const borderCountry = country.querySelector("[data-country-borders]");
+
+  if (c.borders) {
+    c.borders.forEach((border) => {
+      borderCountry.appendChild(createBorderTemplate(border));
+    });
+  } else {
+    borderCountry.textContent = "¯\\_(ツ)_/¯";
+  }
 
   document.querySelector(".js-country-modal").appendChild(country);
 };
